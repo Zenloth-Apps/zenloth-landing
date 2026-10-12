@@ -11,3 +11,11 @@ Search Console/Bing submission, genuine search/AI crawler access logs, and field
 Dev OIDC trust uses GitHub's immutable owner/repository subject IDs (3641259 / 1350130317), verified from failed run 37717332741 in CloudTrail. The deployment role can read invalidation completion only for its own distribution. Recreating or transferring the repository requires reviewing that exact trust subject.
 
 The dev exporter keeps app/official-document links on the frontend dev origin https://d3cpf76wsm49vw.cloudfront.net, with actual EN/ES paths. Production source URLs remain canonical; promote the frontend routes before the landing. The exporter recreates dist to prevent stale sitemaps or documents.
+
+## Authorized staging delivery — October 12, 2026
+
+The separate `staging-hosting.yaml` permits staging only: private versioned/encrypted `zenloth-landing-web-staging`, OAC-only read access and noindex response headers. Its role trusts only the verified current immutable `repo:Zenloth-Apps@339365234/zenloth-landing@1350130317:ref:refs/heads/staging`, audience sts.amazonaws.com. The staging workflow deliberately has no GitHub environment override so its OIDC subject is that exact ref. Dev retains its existing environment-bound role and workflow.
+
+Repository nonsecret variables `LANDING_STAGING_{ORIGIN,DEPLOY_ROLE_ARN,S3_BUCKET,DISTRIBUTION_ID}` come from the reviewed stack outputs. The stage exporter requires the exact CloudFront origin, directs EN/ES app/legal links to the verified frontend stage origin, excludes sitemap, and records all document digests in release.json. The deploy validates before publication, uploads assets before documents, waits invalidation completion and reads back exact revision/digests. Production source/publisher are unchanged and need a separate authorized release.
+
+Rollback uses retained versioned staging objects and reviewed exact distribution/function configuration followed by fresh invalidation. Do not reset or modify dev or production resources. Formal cross-surface QA, provider indexing, physical-device and authenticated journeys remain separate.
