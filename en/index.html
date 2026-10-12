@@ -1,0 +1,1169 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#04130C"><!-- Compartir / redes sociales. NOTA: al lanzar, cambiá las rutas de og:image por una URL absoluta (https://tudominio.com/...) --><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304130C'/%3E%3Cpath d='M8 23c0-8 6-13 16-14-1 10-7 14-13 14' fill='none' stroke='%2351D984' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M9 22c3-4 8-6 12-7' fill='none' stroke='%2351D984' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E"><!-- Tipografía de marca (brandbook): Space Grotesk para títulos · Manrope para cuerpo (solo los pesos usados) --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.4.0/dist/tabler-icons.min.css"><!-- ════════════════════════════════════════════════════════════════════
+     EDITAR ESTA PAGINA / HOW TO EDIT THIS PAGE
+     ────────────────────────────────────────────────────────────────────
+     1. TEXTO (copy):  cada escena es un  div class="act"  (buscá "ACTO N").
+        Edita lo que esta dentro de data-es="..." (espanol) y data-en="..." (ingles).
+     2. IMAGENES de escena:  cambia el atributo  data-bg="..."  en cada act.
+     3. LOGOS, ZENNY y VIDEOS:  edita el objeto  CONFIG  al inicio del script.
+     4. PANTALLAS de la app (carrusel):  busca "ACTO 3 . CARRUSEL".
+        Podes reemplazar cada slide por una captura real con  img class="screen-img".
+     ════════════════════════════════════════════════════════════════════ --><style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+button,input,select,textarea,optgroup{font-family:inherit;font-size:inherit;line-height:inherit}
+:root{
+  /* —— Marca Zenloth —— */
+  --esm:#51D984; --esm-deep:#36b46a; --selva:#065F46; --teal:#0F766E;
+  /* contra-acento cálido — reservado para 1-2 momentos clave */
+  --amber:#F6A738; --amber-soft:rgba(246,167,56,.14); --amber-bd:rgba(246,167,56,.36);
+  --bg:#04130C; --bg2:#071d12; --surf:#0c2418; --surf2:#0f2c1c;
+  --ink:#F1F7F3; --mut:#9DB3A8; --mut-2:#B7C9BF; --bd:rgba(255,255,255,.1);
+  /* —— Tipografía / ritmo —— */
+  --text-hero:clamp(2.6rem, 1rem + 7vw, 7rem);
+  --text-h2:clamp(2rem, 1rem + 3.4vw, 4.4rem);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+/* —— foco accesible (teclado): anillo de marca, funciona en cualquier forma —— */
+*:focus-visible{outline:2.5px solid var(--esm);outline-offset:3px;border-radius:4px}
+:focus:not(:focus-visible){outline:none}
+h1,h2,h3,.disp{font-family:'Space Grotesk','Manrope',sans-serif;letter-spacing:-1.2px;line-height:1}
+em{font-style:normal;color:var(--esm)}
+img{max-width:100%;display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,32px);position:relative;z-index:2}
+
+/* ——— Botones ——— */
+.btn{font-family:'Manrope';font-weight:600;font-size:15px;border-radius:999px;padding:14px 28px;cursor:pointer;border:none;transition:.25s var(--ease);display:inline-flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap}
+.btn-esm{background:var(--esm);color:#04240f}.btn-esm:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(81,217,132,.45)}
+.btn-w{background:#fff;color:#06281a}.btn-w:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.25)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1.5px solid rgba(255,255,255,.55);backdrop-filter:blur(8px)}.btn-ghost:hover{background:rgba(255,255,255,.16)}
+.eyebrow{color:var(--esm);font-weight:700;letter-spacing:3px;text-transform:uppercase;font-size:13px}
+
+/* ——— NAV ——— */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(20px,4vw,32px);transition:.35s var(--ease);border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(4,19,12,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:12px clamp(20px,4vw,32px)}
+nav .logo{height:32px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.navlinks{display:flex;gap:26px;align-items:center}
+.navlinks a{color:rgba(255,255,255,.85);text-decoration:none;font-size:15px;font-weight:500;cursor:pointer;transition:.2s}
+.navlinks a:hover{color:#fff}
+.lang{background:rgba(255,255,255,.08);border:1px solid var(--bd);color:#fff;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
+.lang:hover{background:rgba(255,255,255,.18)}
+.menu-btn{display:none;background:rgba(255,255,255,.08);border:1px solid var(--bd);color:#fff;font-size:13px;font-weight:700;cursor:pointer;border-radius:999px;padding:7px 13px;font-family:inherit;transition:.2s}.menu-btn:hover{background:rgba(255,255,255,.18)}
+
+/* ════════════════ CINEMA · compositor de escenas ════════════════ */
+.cinema{position:relative;width:100%}            /* altura la fija el JS (N · ACT_VH) */
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg)}
+.act{position:absolute;inset:0;opacity:0;will-change:opacity}
+.l-bg{position:absolute;inset:-7%;background-size:cover;background-position:center;will-change:transform;transform:scale(1.05)}
+.l-video{position:absolute;inset:-7%;width:114%;height:114%;object-fit:cover;opacity:0;will-change:transform;pointer-events:none}
+.l-video.ready{opacity:1}
+.l-trans{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;pointer-events:none;z-index:1}
+.l-fg{position:absolute;inset:-8%;background-size:cover;background-position:center bottom;pointer-events:none;will-change:transform}
+.grade{position:absolute;inset:0;pointer-events:none}
+/* gradiente cinematográfico por defecto (oscuro arriba y abajo, claro al centro) */
+.grade.story{background:linear-gradient(180deg,rgba(4,19,12,.86) 0%,rgba(4,19,12,.34) 24%,rgba(4,19,12,.12) 48%,rgba(4,19,12,.40) 74%,var(--bg) 100%)}
+.grade.warm{background:linear-gradient(180deg,rgba(4,19,12,.72) 0%,rgba(4,19,12,.18) 30%,rgba(8,30,16,.12) 60%,var(--bg) 100%)}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 42%,transparent 52%,rgba(2,10,6,.55) 100%)}
+.afog{position:absolute;left:-25%;width:150%;height:80%;top:10%;background:radial-gradient(55% 60% at 50% 50%,rgba(220,255,235,.14),transparent 70%);filter:blur(20px);pointer-events:none}
+.l-content{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px clamp(20px,5vw,40px) 60px;will-change:transform,opacity}
+.act-phone .l-bg{filter:blur(14px) brightness(.55) saturate(.9)}
+.act-phone .l-content,.act-zenny .l-content{justify-content:center}
+
+/* —— textos dentro de escena —— */
+.scene-tag{display:inline-flex;align-items:center;gap:9px;background:rgba(81,217,132,.12);border:1px solid rgba(81,217,132,.32);color:var(--esm);font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;border-radius:999px;margin-bottom:22px;backdrop-filter:blur(6px)}
+.scene-tag i{font-size:15px}
+.act h1{color:#fff;font-size:var(--text-hero);font-weight:700;max-width:16ch;text-shadow:0 8px 50px rgba(0,0,0,.6)}
+.act h2{color:#fff;font-size:var(--text-h2);font-weight:700;max-width:18ch;text-shadow:0 6px 40px rgba(0,0,0,.55)}
+.act .sub{color:rgba(255,255,255,.92);font-size:clamp(16px,1.5vw,21px);max-width:52ch;margin:24px auto 0;text-shadow:0 2px 20px rgba(0,0,0,.6);font-weight:400}
+.act .cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;justify-content:center}
+
+/* —— indicador de scroll —— */
+.scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:6;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:9px;pointer-events:none}
+.mouse{width:23px;height:37px;border:2px solid rgba(255,255,255,.6);border-radius:13px;position:relative}
+.mouse::after{content:'';position:absolute;left:50%;top:7px;width:4px;height:7px;background:#fff;border-radius:2px;transform:translateX(-50%);animation:sc 1.8s ease-in-out infinite}
+@keyframes sc{0%{opacity:0;top:7px}40%{opacity:1}80%{opacity:0;top:20px}}
+
+/* —— progreso vertical de la historia —— */
+.progress{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:11px;transition:opacity .45s ease}
+.progress button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.28);cursor:pointer;padding:0;transition:.3s var(--ease)}
+.progress button.on{background:var(--esm);box-shadow:0 0 0 4px rgba(81,217,132,.18);height:22px;border-radius:6px}
+@media(max-width:820px){.progress{display:none}}
+
+/* ════════════════ ACTO 3 · TELÉFONO + CARRUSEL (réplica de la app real) ════════════════ */
+.cine-phone{width:clamp(242px,72vw,262px);flex-shrink:0;background:#EDF2EE;border-radius:42px;border:1px solid rgba(0,0,0,.05);overflow:hidden;box-shadow:0 50px 110px rgba(0,0,0,.6),0 0 0 9px #0c100e,0 0 0 10px rgba(255,255,255,.06);position:relative;will-change:transform;margin-top:14px}
+.cine-phone::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:86px;height:7px;background:#0a0a0a;border-radius:6px;z-index:8}
+.screens{overflow:hidden;position:relative}
+.screen-track{display:flex;width:100%;will-change:transform}
+.screen{min-width:100%;background:#EDF2EE;padding:0 0 16px}
+.psb{display:flex;justify-content:space-between;align-items:center;padding:15px 18px 6px;font-size:11px;font-weight:700;color:#16241c}
+.psb i{font-size:13px;margin-left:4px}
+
+/* — header de la app — */
+.aph{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 10px}
+.aph .brand{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk';font-weight:700;font-size:17px;color:#16241c;letter-spacing:-.5px}
+.aph .brand img{width:24px;height:24px;border-radius:7px;object-fit:contain}
+.aph .tools{display:flex;gap:7px}
+.aph .tool{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,0,0,.1);background:#fff;display:flex;align-items:center;justify-content:center;color:#5b6b62;font-size:14px}
+
+/* — tarjeta genérica — */
+.acard{background:#fff;border:1px solid rgba(0,0,0,.05);border-radius:18px;margin:0 13px 11px;padding:14px;box-shadow:0 6px 18px rgba(12,40,26,.05)}
+.acard-h{display:flex;align-items:center;gap:7px;font-family:'Space Grotesk';font-weight:700;font-size:14px;color:#16241c}
+.acard-h i{color:#0F766E;font-size:17px}
+.acard-mini{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8a9b91;font-weight:700;text-align:center;margin-bottom:8px}
+.acard-sub{font-size:10.5px;color:#7c8d83;margin:3px 0 10px}
+.acard-foot{font-size:10.5px;color:#6b7d73;font-style:italic;margin-top:9px}
+
+/* — anillos de salud — */
+.rings{display:flex;justify-content:space-around;margin:4px 0 6px}
+.ringbox{display:flex;flex-direction:column;align-items:center;gap:7px}
+.ring{position:relative;width:62px;height:62px}
+.ring svg{width:100%;height:100%}
+.ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:15px;color:#16241c}
+.ringbox .lab{font-size:9px;letter-spacing:.4px;text-transform:uppercase;color:#8a9b91;font-weight:600}
+.ringnote{text-align:center;font-size:10.5px;color:#7c8d83;margin-top:4px}
+
+/* — tarjeta de consejo de Zenny — */
+.ztip{background:#fff;border:1.5px solid #51D984;border-radius:16px;margin:0 13px 11px;padding:13px;display:flex;gap:10px}
+.ztip .ck{color:#1fa85a;font-size:19px;margin-top:1px}
+.ztip .tt{font-family:'Space Grotesk';font-weight:700;font-size:14px;color:#16241c;margin-bottom:3px}
+.ztip .ts{font-size:11px;color:#5b6b62;line-height:1.45}
+.ztip .by{display:flex;align-items:center;gap:4px;color:#2faa63;font-size:11px;font-weight:700;margin-top:7px}
+
+/* — indicadores — */
+.indrow{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-top:1px solid rgba(0,0,0,.06)}
+.indrow:first-of-type{border-top:none;padding-top:11px}
+.indrow .nm{font-size:13px;font-weight:600;color:#16241c}
+.indrow .tg{font-size:10.5px;color:#9aa9a0;margin-top:1px}
+.indrow .vl{font-family:'Space Grotesk';font-weight:700;font-size:16px}
+.indrow .vl.ok{color:#1f9d57}.indrow .vl.red{color:#e5484d}
+
+/* — transacciones — */
+.txhead{display:flex;align-items:baseline;gap:10px;padding:2px 16px 9px}
+.txhead .h{font-family:'Space Grotesk';font-weight:700;font-size:23px;color:#16241c;letter-spacing:-.5px}
+.txhead .txcount{background:#e6f4ec;color:#1f9d57;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px}
+.pills{display:flex;gap:6px;padding:0 14px 11px;overflow:hidden}
+.pill{font-size:11px;font-weight:600;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.pill.on{background:#0F766E;color:#fff}
+.pill.off{background:#fce9e9;color:#d4554f}
+.txday{font-size:11px;color:#9aa9a0;font-weight:500;padding:5px 18px}
+.txc{background:#fff;border:1px solid rgba(0,0,0,.05);border-radius:14px;margin:0 13px 8px;padding:11px 13px;box-shadow:0 4px 12px rgba(12,40,26,.04)}
+.txc .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.txc .mn{font-size:12.5px;font-weight:600;color:#16241c;line-height:1.3}
+.txc .rt{text-align:right;flex:0 0 auto}
+.txc .am{font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#16241c;white-space:nowrap}
+.txc .am.in{color:#1f9d57}
+.txc .dt{font-size:9.5px;color:#aab8af;margin-top:2px}
+.txc .meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.txc .cat{font-size:10px;color:#7c8d83}
+.txc .chip{font-size:9.5px;font-weight:600;padding:3px 7px;border-radius:6px}
+.txc .chip.auto{background:#e6f4ec;color:#1f9d57}
+.txc .chip.mail{background:#eef2f0;color:#7c8d83}
+
+/* — mini gráfico de línea — */
+.lchart{width:100%;height:84px;margin-top:4px;display:block}
+.chartleg{display:flex;gap:14px;margin-top:8px}
+.chartleg span{display:flex;align-items:center;gap:5px;font-size:10px;color:#6b7d73}
+.chartleg .ln{width:14px;height:0;border-top:2px solid #0F766E}
+.chartleg .ln.dash{border-top:2px dashed #9aa9a0}
+
+/* — barras de presupuesto — */
+.bbar{margin:9px 0 0}
+.bbar .bt{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.bbar .bt .nm{font-size:11.5px;color:#16241c;font-weight:500}
+.bbar .bt .vv{font-size:11.5px;color:#16241c;font-family:'Space Grotesk';font-weight:700}
+.bbar .tr{height:7px;background:#e8efe9;border-radius:5px;overflow:hidden}
+.bbar .tr i{display:block;height:100%;background:#0F766E;border-radius:5px}
+
+/* — fijo vs flexible — */
+.ffrow{display:flex;justify-content:space-between;align-items:flex-end;margin:8px 0 9px}
+.ffp{font-family:'Space Grotesk';font-weight:700;font-size:26px;line-height:1;letter-spacing:-1px}
+.ffl{font-size:10.5px;color:#7c8d83;margin-top:3px}
+.fftrack{display:flex;height:9px;border-radius:6px;overflow:hidden;gap:2px}
+.fftrack i{display:block;height:100%;border-radius:6px}
+
+/* — patrón semanal — */
+.wbars{display:flex;align-items:flex-end;justify-content:space-between;gap:5px;height:86px;margin-top:10px}
+.wbars .wb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.wbars .wb i{width:100%;background:#0F766E;border-radius:4px 4px 0 0;display:block}
+.wbars .wb.peak i{background:#f59e0b}
+.wbars .wb span{font-size:8.5px;color:#9aa9a0}
+
+.screen-img{width:100%;height:auto;display:block}
+/* controles del carrusel */
+.carrow{display:flex;align-items:center;gap:18px;margin-top:22px}
+.dots{display:flex;gap:8px;pointer-events:none}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,.3);cursor:pointer;padding:0;transition:.3s var(--ease)}
+.dots button.on{background:var(--esm);width:22px;border-radius:5px}
+.slabel{color:rgba(255,255,255,.78);font-size:13px;font-weight:600;margin-top:14px;letter-spacing:.3px;min-height:18px}
+
+/* ════════════════ ACTO 4 · ZENNY ════════════════ */
+.zenny-wrap{display:flex;align-items:center;justify-content:center;gap:clamp(18px,4vw,60px);flex-wrap:nowrap;max-width:980px;margin:0 auto}
+.zenny-fig{position:relative;flex:0 0 auto;width:clamp(190px,30vw,330px)}
+.zenny-fig .glow{position:absolute;inset:-6% -10% -2%;background:radial-gradient(50% 55% at 50% 55%,rgba(81,217,132,.28),transparent 70%);filter:blur(28px);z-index:0}
+.zenny-fig img{position:relative;z-index:1;width:100%;filter:drop-shadow(0 30px 50px rgba(0,0,0,.55));transform-origin:55% 88%;animation:zpoint 6.5s ease-in-out infinite}
+/* Zenny señala hacia las features: espejado para apuntar al panel + gesto lento de presentación */
+@keyframes zpoint{0%,100%{transform:scaleX(-1) translateY(0) rotate(0deg)}46%,58%{transform:scaleX(-1) translateY(-8px) rotate(-2.5deg)}}
+.zenny-side{flex:1 1 340px;max-width:440px;text-align:left}
+.zenny-side .scene-tag{margin-bottom:18px}
+.zenny-side h2{text-align:left;max-width:none;margin-bottom:16px}
+.zenny-side .sub{text-align:left;margin:0 0 22px}
+/* —— conversación de Zenny estilo mensajería —— */
+.zchat{display:flex;flex-direction:column;align-items:flex-start;gap:10px;width:100%;min-height:158px;justify-content:flex-start}
+.cbub{max-width:90%;padding:12px 15px;font-size:14px;border-radius:16px;line-height:1.45}
+.cbub.z{background:rgba(15,44,28,.92);border:1px solid var(--bd);border-radius:16px 16px 16px 5px;color:#eaf5ee;backdrop-filter:blur(6px);align-self:flex-start}
+.cbub.z b{color:var(--esm)}
+.cbub.u{background:var(--esm);color:#05110C;border-radius:16px 16px 5px 16px;font-weight:600;align-self:flex-end}
+/* estados de aparición (controlados por JS, secuencial como un chat) */
+.zchat .cbub{display:none}
+.zchat .cbub.in{display:block;animation:bubIn .32s var(--ease) both}      /* Zenny: rápido */
+.zchat .cbub.u.in{animation:bubInR .5s var(--ease) both}                   /* vos: normal */
+@keyframes bubIn{0%{opacity:0;transform:translateX(-16px) translateY(8px) scale(.9)}62%{opacity:1;transform:translateX(0) translateY(-2px) scale(1.015)}100%{opacity:1;transform:none}}
+@keyframes bubInR{0%{opacity:0;transform:translateX(22px) translateY(6px) scale(.9)}62%{opacity:1;transform:translateX(0) translateY(-2px) scale(1.015)}100%{opacity:1;transform:none}}
+/* burbuja "Zenny está escribiendo…" */
+.ztyping{display:none;align-items:center;gap:5px;background:rgba(15,44,28,.92);border:1px solid var(--bd);border-radius:16px 16px 16px 5px;padding:13px 15px;backdrop-filter:blur(6px);align-self:flex-start}
+.ztyping.in{display:inline-flex;animation:bubIn .3s var(--ease) both}
+/* indicador de escritura del usuario (lado derecho, verde) */
+.ztyping.u{background:var(--esm);border-color:transparent;border-radius:16px 16px 5px 16px;align-self:flex-end}
+.ztyping.u.in{animation:bubInR .3s var(--ease) both}
+.ztyping.u span{background:#05110C}
+.ztyping span{width:7px;height:7px;border-radius:50%;background:var(--esm);display:block;animation:typd 1.1s infinite ease-in-out}
+.ztyping span:nth-child(2){animation-delay:.18s}
+.ztyping span:nth-child(3){animation-delay:.36s}
+@keyframes typd{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-5px);opacity:1}}
+@media(max-width:720px){.zenny-side{text-align:center;flex-basis:100%}.zenny-side h2,.zenny-side .sub{text-align:center}.zenny-side .scene-tag{margin-left:auto;margin-right:auto}.zchat{align-items:center}.cbub.u,.cbub.z{align-self:auto}}
+
+/* spores / partículas */
+canvas.sp{position:absolute;inset:0;pointer-events:none;z-index:4}
+
+/* ════════════════ SECCIONES MARKETING ════════════════ */
+.sec{padding:clamp(80px,11vw,130px) 0;position:relative}
+.sec.alt{background:var(--bg2)}
+.sec-bg{position:absolute;inset:-8%;background-size:cover;background-position:center;opacity:.07;pointer-events:none;z-index:0}
+.shead{text-align:center;max-width:700px;margin:0 auto 56px}
+.shead h2{font-size:var(--text-h2);font-weight:700;margin:14px 0 16px}
+.shead p{color:var(--mut);font-size:18px}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv:nth-child(2){transition-delay:.08s}.rv:nth-child(3){transition-delay:.16s}
+
+/* —— bento: jerarquía por contraste de escala (no grilla uniforme) —— */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:16px}
+.fcard{background:var(--surf);border:1px solid var(--bd);border-radius:22px;padding:26px;transition:.28s var(--ease);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.fcard:hover{transform:translateY(-6px);border-color:rgba(81,217,132,.45);background:var(--surf2);box-shadow:0 18px 50px rgba(81,217,132,.12)}
+.fcard .fi{width:48px;height:48px;border-radius:14px;background:rgba(81,217,132,.13);color:var(--esm);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.fcard h3{font-size:18px;font-weight:600;margin-bottom:7px;letter-spacing:-.3px}
+.fcard p{color:var(--mut);font-size:14.5px}
+/* tarjeta héroe: el diferenciador, al doble de tamaño */
+.fcard.lg{grid-column:span 2;grid-row:span 2;justify-content:flex-end;background:radial-gradient(120% 90% at 100% 0%,rgba(81,217,132,.12),transparent 55%),linear-gradient(150deg,var(--surf2),var(--surf));border-color:rgba(81,217,132,.30);padding:clamp(28px,3vw,40px)}
+.fcard.lg .fi{width:62px;height:62px;font-size:31px;border-radius:18px;margin:0 0 auto}
+.fcard.lg h3{font-size:clamp(23px,2.4vw,34px);font-weight:700;letter-spacing:-1px;margin:26px 0 12px;line-height:1.05}
+.fcard.lg p{font-size:16px;max-width:36ch}
+.fcard.lg .tagline{margin-top:20px;display:inline-flex;align-items:center;gap:8px;color:var(--esm);font-weight:600;font-size:13.5px}
+/* la ÚNICA tarjeta con el contra-acento cálido (dinero / doble moneda) */
+.fcard.warm .fi{background:var(--amber-soft);color:var(--amber)}
+.fcard.warm:hover{border-color:var(--amber-bd);box-shadow:0 18px 50px rgba(246,167,56,.12)}
+
+.trust{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.tbadge{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:16px 22px}
+.tbadge i{color:var(--esm);font-size:23px}
+.tbadge span{font-size:14.5px;color:var(--ink);font-weight:500}
+.stats{display:flex;gap:clamp(36px,6vw,64px);justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.stats .v{font-family:'Space Grotesk';font-weight:700;font-size:clamp(34px,4vw,44px);color:#fff;letter-spacing:-1.5px}
+.stats .l{color:var(--mut-2);font-size:14px;text-align:center;max-width:16ch}
+.statcap{text-align:center;color:var(--mut);font-size:12.5px;margin-bottom:60px;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.statcap i{color:var(--esm);font-size:15px}
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:760px;margin:0 auto}
+.pcard{background:var(--surf);border:1px solid var(--bd);border-radius:24px;padding:34px;position:relative;overflow:hidden}
+.pcard.feat{border:2px solid var(--esm);background:var(--surf2)}
+.pcard .badge{position:absolute;top:-1px;right:24px;background:var(--amber);color:#241803;font-size:12px;font-weight:700;padding:6px 14px;border-radius:0 0 12px 12px}
+.pcard .pname{font-size:15px;color:var(--mut);font-weight:600}
+.pcard .price{font-family:'Space Grotesk';font-weight:700;font-size:42px;color:#fff;margin:8px 0 4px;letter-spacing:-1px}
+.pcard .price span{font-size:16px;color:var(--mut);font-weight:500}
+.pcard .price .pwas{font-size:23px;color:var(--mut);font-weight:600;text-decoration:line-through;text-decoration-color:rgba(157,179,168,.55);margin-right:9px;letter-spacing:-.5px;vertical-align:1px}
+.pcard .ptrial{display:inline-flex;align-items:center;gap:5px;background:rgba(81,217,132,.13);border:1px solid rgba(81,217,132,.3);color:var(--esm);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;margin:2px 0 2px}
+.pcard .psub{font-size:13px;color:var(--mut);margin-top:6px}
+.pcard ul{list-style:none;margin:22px 0 26px}
+.pcard li{display:flex;gap:10px;align-items:center;padding:9px 0;font-size:14.5px;color:var(--ink);border-bottom:1px solid rgba(255,255,255,.05)}
+.pcard li i{color:var(--esm);font-size:18px}
+.pcard .btn{width:100%;justify-content:center}
+.pcard.feat{box-shadow:0 30px 80px rgba(0,0,0,.34)}
+.pcard .anchor{color:var(--mut-2);font-size:13.5px;margin-top:9px}
+.pcard .pnote{display:inline-flex;align-items:center;gap:6px;color:var(--mut-2);font-size:12.5px;margin-top:10px}
+.pcard .pnote i{color:var(--esm);font-size:14px}
+.pcard .pguar{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12.5px;margin-top:14px;justify-content:center;text-align:center}
+.pcard .pguar i{color:var(--esm);font-size:15px}
+
+footer{background:#030d08;border-top:1px solid var(--bd);padding:70px 0 34px;position:relative;z-index:2}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.fgrid .logo{height:32px;margin-bottom:16px}
+.fcol h4{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);margin-bottom:16px;font-weight:600}
+.fcol a{display:block;color:rgba(255,255,255,.78);text-decoration:none;font-size:14.5px;margin-bottom:11px;cursor:pointer;transition:.2s}
+.fcol a:hover{color:var(--esm)}
+.fabout{color:var(--mut);font-size:14px;max-width:30ch}
+.fbottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bd);padding-top:24px;color:var(--mut);font-size:13.5px;flex-wrap:wrap;gap:12px}
+
+/* grano de película global */
+.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+@media(max-width:900px){
+  .navlinks{display:none}.menu-btn{display:block}
+  .bento,.prices,.fgrid{grid-template-columns:1fr}
+  .fcard.lg{grid-column:auto;grid-row:auto}
+  .fcard.lg h3{margin-top:14px}
+  .zenny-wrap{flex-direction:column}
+}
+/* escena del teléfono en móvil: menos padding vertical para que el mockup
+   quepa entero (con la barra de Safari) sin encogerse ni verse cuadrado */
+@media(max-width:820px){
+  .act-phone .l-content{padding-top:62px;padding-bottom:26px}
+  .act-phone .scene-tag{margin-bottom:14px}
+}
+
+/* ——— reduced motion: la historia se vuelve una serie de escenas estáticas ——— */
+@media(prefers-reduced-motion:reduce){*,*::after{animation:none!important;scroll-behavior:auto!important}}
+body.reduced .cinema{height:auto!important}
+body.reduced .stage{position:static;height:auto}
+body.reduced .act{position:relative;opacity:1!important;visibility:visible!important;min-height:100vh}
+body.reduced .l-bg,body.reduced .l-fg{transform:none!important}
+body.reduced .l-content{opacity:1!important;transform:none!important}
+body.reduced .act-phone .l-bg{filter:blur(14px) brightness(.5)}
+
+
+/* ——— banner de cookies (privacy-first #12) ——— */
+.cookiebar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:95;width:min(720px,calc(100% - 28px));background:rgba(7,29,18,.93);border:1px solid var(--bd);border-radius:18px;padding:15px 20px;backdrop-filter:blur(16px);box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;align-items:center;gap:18px;flex-wrap:wrap;transition:.45s var(--ease)}
+.cookiebar.hide{opacity:0;transform:translateX(-50%) translateY(22px);pointer-events:none}
+.cookietext{display:flex;align-items:flex-start;gap:11px;color:var(--mut-2);font-size:13px;line-height:1.5;flex:1;min-width:240px}
+.cookietext i{color:var(--esm);font-size:20px;flex:none;margin-top:1px}
+.ck-mini{display:none}
+.cookiebtns{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn-ck{font-family:'Manrope';font-weight:600;font-size:13px;border-radius:999px;padding:9px 16px;cursor:pointer;border:1px solid var(--bd);transition:.2s}
+.btn-ck.ghost{background:transparent;color:var(--ink)}.btn-ck.ghost:hover{background:rgba(255,255,255,.08)}
+.btn-ck.ok{background:var(--esm);color:#04240f;border-color:transparent}.btn-ck.ok:hover{transform:translateY(-1px)}
+.cklink{color:var(--mut);font-size:12.5px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+
+/* ——— responsive: tablet (el bento conserva jerarquía) ——— */
+@media(max-width:1100px) and (min-width:901px){
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .fcard.lg{grid-column:span 2;grid-row:span 1}
+  .fcard.lg .fi{margin-bottom:14px}
+  .fcard.lg h3{margin-top:14px}
+}
+@media(max-width:560px){
+  .cookiebar{left:0;right:0;width:100%;transform:none;bottom:0;border-radius:16px 16px 0 0;
+    padding:13px 16px max(18px, env(safe-area-inset-bottom,0px));gap:11px;flex-direction:column;align-items:stretch}
+  .cookiebar.hide{transform:translateY(100%);opacity:0}
+  .ck-full{display:none}.ck-mini{display:inline}
+  .cookietext{font-size:12.5px;line-height:1.4;min-width:unset;gap:9px}
+  .cookietext i{font-size:17px}
+  .cookiebtns{display:flex;gap:9px}
+  .btn-ck{flex:1;text-align:center;justify-content:center;padding:11px 10px;font-size:13.5px}
+  .cklink{display:none}
+  /* hero: la foto es horizontal; en móvil reencuadramos para centrar a la persona */
+  .act-hero .l-bg{background-position:30% 50%}
+}
+
+/* Readable by default; animation is an enhancement after successful setup. */
+body:not(.cinema-ready) .cinema{height:auto!important}
+body:not(.cinema-ready) .stage{position:relative;height:auto;overflow:visible}
+body:not(.cinema-ready) .act{position:relative;opacity:1!important;visibility:visible!important;min-height:75svh}
+body:not(.cinema-ready) .l-content{position:relative;opacity:1!important;transform:none!important;min-height:75svh}
+body:not(.cinema-ready) .l-bg,body:not(.cinema-ready) .l-fg{transform:none!important}
+body:not(.cinema-ready) .rv{opacity:1;transform:none}
+body:not(.cinema-ready) .scroll-cue,body:not(.cinema-ready) .dots{display:none}
+.lang,.menu-btn{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
+[id^="story-"]{scroll-margin-top:80px}
+
+/* ZEN-227: content stays usable when the cinema cannot fit. */
+:root{--nav-offset:84px}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--esm);outline-offset:5px}
+[id]{scroll-margin-top:var(--nav-offset)}
+.nav-tools{display:none;align-items:center;gap:8px}
+.nav-toggle{display:none;border:1px solid var(--bd);border-radius:999px;background:var(--surf);color:#fff;font-family:inherit;font-size:15px;font-weight:600;min-height:44px;padding:8px 16px;cursor:pointer}
+.navlinks a{display:inline-flex;align-items:center;min-height:44px}
+.menu-btn{display:none}
+.sec{overflow:clip} /* contain decorative backgrounds within their section */
+.pcard{min-width:0;padding:clamp(20px,5vw,34px)}
+.pcard .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 9px}
+.price .current-price{font:inherit;white-space:nowrap;display:inline-flex;align-items:baseline;gap:2px}
+.pcard .price .pwas{margin-right:0}
+body:not(.cinema-ready) .act{overflow:hidden}
+body:not(.cinema-ready) .l-content{min-height:75svh;padding-top:100px;padding-bottom:60px}
+body:not(.cinema-ready) .cine-phone{transform:none!important}
+body:not(.cinema-ready) .sp,body:not(.cinema-ready) .l-video,body:not(.cinema-ready) .l-trans{display:none!important}
+body:not(.cinema-ready) .scrollcue,body:not(.cinema-ready) .progress{display:none}
+body:not(.cinema-ready) .screens{overflow-x:auto;scroll-snap-type:x mandatory}
+body:not(.cinema-ready) .screen-track{transform:none!important}
+body:not(.cinema-ready) .screen{scroll-snap-align:start;flex:0 0 100%;min-width:0}
+body:not(.cinema-ready) .dots{display:flex;gap:8px;pointer-events:auto}
+body:not(.cinema-ready) .dots button{width:44px;height:44px;border-radius:50%;border:1px solid var(--bd);color:#fff;background:var(--surf)}
+body:not(.cinema-ready) .dots button.on{background:var(--esm);color:#06281a}
+body:not(.cinema-ready) .cbub{display:block;opacity:1;transform:none;animation:none}
+body:not(.cinema-ready) .ztyping{display:none}
+@media(max-width:900px){
+  .nav-tools{display:flex}.menu-btn{display:inline-flex}
+  .nav-ready .nav-toggle{display:inline-flex;align-items:center;justify-content:center}
+  .navlinks{display:flex;position:absolute;top:100%;left:12px;right:12px;flex-direction:column;align-items:stretch;gap:4px;padding:16px;background:var(--bg);border:1px solid var(--bd);border-radius:16px;max-height:calc(100svh - var(--nav-offset) - 12px);overflow-y:auto}
+  .navlinks a{padding:8px 14px}
+  .nav-ready .navlinks:not(.open){display:none}
+  body:not(.nav-ready) nav{position:relative;flex-wrap:wrap}
+  body:not(.nav-ready) .navlinks{position:static;max-height:none;width:100%;margin-top:12px}
+}
+
+</style><title>Zenloth — Finance with calm</title><meta name="description" content="Meet Zenloth: organize your budget and financial goals with Zenny. Read our official documents and find contact information.">
+<link rel="canonical" href="https://info.zenloth.tech/en/"><link rel="alternate" hreflang="es" href="https://info.zenloth.tech/"><link rel="alternate" hreflang="en" href="https://info.zenloth.tech/en/"><link rel="alternate" hreflang="x-default" href="https://info.zenloth.tech/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Zenloth"><meta property="og:title" content="Zenloth — Finance with calm"><meta property="og:description" content="Meet Zenloth: organize your budget and financial goals with Zenny. Read our official documents and find contact information."><meta property="og:url" content="https://info.zenloth.tech/en/"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://info.zenloth.tech/src/story/05_walk_black_clean-lg.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Zenloth — Finance with calm"><meta name="twitter:description" content="Meet Zenloth: organize your budget and financial goals with Zenny. Read our official documents and find contact information."><meta name="twitter:image" content="https://info.zenloth.tech/src/story/05_walk_black_clean-lg.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Zenloth","url":"https://info.zenloth.tech/","inLanguage":["es","en"]}</script></head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="nav">
+  <a href="#top"><img class="logo" id="navlogo" src="/src/logo/zenloth-lockup-white.png" alt="Zenloth"></a>
+  <div class="nav-tools"><a class="menu-btn" id="lang2" href="/" lang="es" hreflang="es">ES</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="navlinks" data-es="Menú" data-en="Menu">Menu</button></div>
+  <div class="navlinks" id="navlinks">
+    <a href="#story-2" data-go="2" data-es="Producto" data-en="Product">Product</a>
+    <a href="#features" data-es="Funciones" data-en="Features">Features</a>
+    <a href="#pricing" data-es="Precios" data-en="Pricing">Pricing</a>
+    <a href="#story-3" data-go="3" data-es="Zenny" data-en="Zenny">Zenny</a>
+    <a class="lang" id="lang" href="/" lang="es" hreflang="es">ES</a>
+    <a href="#pricing" class="btn btn-esm" data-es="Comenzar" data-en="Get started">Get started</a>
+  </div>
+
+</nav>
+
+<!-- progreso de la historia (puntos laterales) -->
+<div class="progress" id="progress"></div>
+
+
+<span id="top"></span>
+
+<!-- ═══════════════ CINEMA ═══════════════ -->
+<main id="main">
+<section class="cinema" id="cinema">
+  <div class="stage">
+
+    <!-- ░░░░░░░░ ACTO 1 · CAMINATA (héroe) ░░░░░░░░ -->
+    <div class="act act-hero" id="story-0" data-bg="/src/story/05_walk_black_clean.jpg" data-zoom="1.22" data-name="Inicio">
+      <div class="l-bg"></div>
+      <video class="l-video" data-src="/src/video/hero-cinemagraph.mp4" muted="" loop="" playsinline="" autoplay="" preload="none"></video>
+      <div class="afog"></div>
+      <div class="grade story"></div>
+      <canvas class="sp"></canvas>
+      <div class="vig"></div>
+      <div class="l-content">
+        <div class="eyebrow" style="margin-bottom:20px" data-es="Finanzas con calma" data-en="Finance, calmly">Finance, calmly</div>
+        <h1 data-es="No estás perdido.<br>Solo necesitabas el <em>mapa</em>." data-en="You're not lost.<br>You just needed the <em>map</em>.">You're not lost.<br>You just needed the <em>map</em>.</h1>
+        <p class="sub" data-es="Zenloth te muestra dónde estás, hacia dónde vas y tu siguiente paso — con la calma de la selva costarricense." data-en="Zenloth shows you where you are, where you're headed and your next step — with the calm of the Costa Rican rainforest.">Zenloth shows you where you are, where you're headed and your next step — with the calm of the Costa Rican rainforest.</p>
+        <div class="cta">
+          <a href="https://zenloth.tech/" target="_blank" rel="noopener" class="btn btn-w" data-es="Probá 7 días gratis" data-en="Try 7 days free">Try 7 days free</a>
+          <a href="#story-1" data-go="1" class="btn btn-ghost" data-es="Ver el camino" data-en="See the path">See the path</a>
+        </div>
+      </div>
+      <div class="scrollcue"><div class="mouse"></div><span data-es="Deslizá" data-en="Scroll">Scroll</span></div>
+    </div>
+
+    <!-- ░░░░░░░░ ACTO 2 · EL MAPA (mirando el teléfono) ░░░░░░░░ -->
+    <div class="act" id="story-1" data-bg="/src/story/02_map.jpg" data-zoom="1.24" data-name="El mapa">
+      <div class="l-bg"></div>
+      <video class="l-video" data-src="/src/video/map-typing.mp4" muted="" loop="" playsinline="" autoplay="" preload="none"></video>
+      <div class="grade story"></div>
+      <div class="vig"></div>
+      <div class="l-content">
+        <span class="scene-tag"><i class="ti ti-map-2"></i><span data-es="El mapa" data-en="The map">The map</span></span>
+        <h2 data-es="La app es tu <em>mapa</em>" data-en="The app is your <em>map</em>">The app is your <em>map</em></h2>
+        <p class="sub" data-es="Saldos, movimientos y metas en un solo lugar. Por fin sabés dónde estás parado y cuál es tu siguiente paso." data-en="Balances, transactions and goals in one place. You finally know where you stand — and your next move.">Balances, transactions and goals in one place. You finally know where you stand — and your next move.</p>
+      </div>
+    </div>
+
+    <!-- ░░░░░░░░ ACTO 3 · DENTRO DEL TELÉFONO · CARRUSEL ░░░░░░░░
+         Para usar capturas reales: reemplazá el contenido de un .screen por
+         <img class="screen-img" src="src/screens/tu-captura.png" alt="">          -->
+    <div class="act act-phone" id="story-2" data-bg="/src/story/02_map.jpg" data-name="La app">
+      <div class="l-bg"></div>
+      <div class="grade"></div>
+      <div class="l-content">
+        <span class="scene-tag"><i class="ti ti-device-mobile"></i><span data-es="En tu bolsillo" data-en="In your pocket">In your pocket</span></span>
+        <div class="cine-phone" id="phone">
+          <div class="screens">
+            <div class="screen-track" id="track">
+
+              <!-- Slide 1 · Inicio (Salud financiera + consejo + indicadores) -->
+              <div class="screen">
+                <div class="psb"><span>9:41</span><span><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+                <div class="aph">
+                  <div class="brand"><img src="/src/logo/zenloth-symbol-black.png" alt="" loading="lazy" decoding="async">zenloth</div>
+                  <div class="tools"><span class="tool"><i class="ti ti-adjustments-horizontal"></i></span><span class="tool"><i class="ti ti-settings"></i></span></div>
+                </div>
+                <div class="acard">
+                  <div class="acard-mini" data-es="Salud financiera" data-en="Financial health">Financial health</div>
+                  <div class="rings">
+                    <div class="ringbox">
+                      <div class="ring"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#e8efe9" stroke-width="6"></circle><circle cx="28" cy="28" r="22" fill="none" stroke="#1f9d57" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="38.7" transform="rotate(-90 28 28)"></circle></svg><span class="pct">72%</span></div>
+                      <span class="lab" data-es="Presupuesto" data-en="Budget">Budget</span>
+                    </div>
+                    <div class="ringbox">
+                      <div class="ring"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#e8efe9" stroke-width="6"></circle><circle cx="28" cy="28" r="22" fill="none" stroke="#0F766E" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="58.1" transform="rotate(-90 28 28)"></circle></svg><span class="pct">58%</span></div>
+                      <span class="lab" data-es="Control" data-en="Control">Control</span>
+                    </div>
+                    <div class="ringbox">
+                      <div class="ring"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#e8efe9" stroke-width="6"></circle><circle cx="28" cy="28" r="22" fill="none" stroke="#51D984" stroke-width="6" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="81.6" transform="rotate(-90 28 28)"></circle></svg><span class="pct">41%</span></div>
+                      <span class="lab" data-es="Objetivo" data-en="Goal">Goal</span>
+                    </div>
+                  </div>
+                  <div class="ringnote" data-es="Manuel Antonio: 41% completado" data-en="Manuel Antonio: 41% complete">Manuel Antonio: 41% complete</div>
+                </div>
+                <div class="ztip">
+                  <i class="ti ti-circle-check ck"></i>
+                  <div>
+                    <div class="tt" data-es="Vas muy bien" data-en="Looking good">Looking good</div>
+                    <div class="ts" data-es="Sin acciones urgentes. Seguí revisando tus gastos a diario para mantener el rumbo." data-en="No urgent actions right now. Keep reviewing your spending daily to stay on track.">No urgent actions right now. Keep reviewing your spending daily to stay on track.</div>
+                    <div class="by"><i class="ti ti-sparkles"></i>Zenny</div>
+                  </div>
+                </div>
+                <div class="acard">
+                  <div class="acard-h"><i class="ti ti-activity-heartbeat"></i><span data-es="Indicadores" data-en="Indicators">Indicators</span></div>
+                  <div class="indrow"><div><div class="nm" data-es="Tasa de ahorro" data-en="Savings rate">Savings rate</div><div class="tg" data-es="Meta: 30%" data-en="Target: 30%">Target: 30%</div></div><div class="vl ok">18%</div></div>
+                  <div class="indrow"><div><div class="nm" data-es="Fondo de emergencia" data-en="Emergency fund">Emergency fund</div><div class="tg" data-es="Meta: 6 meses" data-en="Target: 6 months">Target: 6 months</div></div><div class="vl red" data-es="2,5 meses" data-en="2.5 months">2.5 months</div></div>
+                </div>
+              </div>
+
+              <!-- Slide 2 · Transacciones -->
+              <div class="screen">
+                <div class="psb"><span>9:41</span><span><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+                <div class="txhead"><span class="h" data-es="Transacciones" data-en="Transactions">Transactions</span><span class="txcount">62</span></div>
+                <div class="pills"><span class="pill on" data-es="Todas" data-en="All">All</span><span class="pill off" data-es="Esenciales" data-en="Essentials">Essentials</span><span class="pill off" data-es="Variables" data-en="Variable">Variable</span></div>
+                <div class="txday" data-es="Vie, 19 jun" data-en="Fri, Jun 19">Fri, Jun 19</div>
+                <div class="txc"><div class="top"><div class="mn">Auto Mercado Santa Ana</div><div class="rt"><div class="am">-₡15.572</div><div class="dt">2026-06-19</div></div></div><div class="meta"><span class="cat">groceries</span><span class="chip auto" data-es="Auto" data-en="Auto">Auto</span><span class="chip mail">email</span></div></div>
+                <div class="txc"><div class="top"><div class="mn">Spotify P34D8R2 CR</div><div class="rt"><div class="am">-$5,99</div><div class="dt">2026-06-19</div></div></div><div class="meta"><span class="cat">subscriptions</span><span class="chip auto" data-es="Auto" data-en="Auto">Auto</span><span class="chip mail">email</span></div></div>
+                <div class="txday" data-es="Jue, 18 jun" data-en="Thu, Jun 18">Thu, Jun 18</div>
+                <div class="txc"><div class="top"><div class="mn">Salario · Pulpo Labs</div><div class="rt"><div class="am in">+₡685.000</div><div class="dt">2026-06-18</div></div></div><div class="meta"><span class="cat" data-es="ingreso" data-en="income">income</span><span class="chip mail">email</span></div></div>
+                <div class="txc"><div class="top"><div class="mn">Farmacia La Bomba</div><div class="rt"><div class="am">-₡13.113</div><div class="dt">2026-06-18</div></div></div><div class="meta"><span class="cat">healthcare</span><span class="chip auto" data-es="Auto" data-en="Auto">Auto</span><span class="chip mail">email</span></div></div>
+              </div>
+
+              <!-- Slide 3 · Análisis (Ritmo de gasto + Presupuesto vs real) -->
+              <div class="screen">
+                <div class="psb"><span>9:41</span><span><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+                <div class="acard">
+                  <div class="acard-h"><i class="ti ti-gauge"></i><span data-es="Ritmo de gasto mensual" data-en="Monthly spending pace">Monthly spending pace</span></div>
+                  <div class="acard-sub" data-es="Acumulado real vs. planificado" data-en="Actual vs planned cumulative">Actual vs planned cumulative</div>
+                  <svg class="lchart" viewBox="0 0 250 84" preserveAspectRatio="none">
+                    <polygon points="6,78 6,72 32,66 58,68 84,52 110,50 136,38 162,41 188,27 214,29 240,18 240,78" fill="rgba(15,118,110,.10)"></polygon>
+                    <polyline points="6,72 240,22" fill="none" stroke="#9aa9a0" stroke-width="2" stroke-dasharray="5 5"></polyline>
+                    <polyline points="6,72 32,66 58,68 84,52 110,50 136,38 162,41 188,27 214,29 240,18" fill="none" stroke="#0F766E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"></polyline>
+                  </svg>
+                  <div class="chartleg"><span><i class="ln"></i><span data-es="Real" data-en="Actual">Actual</span></span><span><i class="ln dash"></i><span data-es="Plan" data-en="Planned">Planned</span></span></div>
+                  <div class="acard-foot" data-es="A este ritmo cerrás 17% bajo presupuesto." data-en="Current pace projects finishing 17% under budget.">Current pace projects finishing 17% under budget.</div>
+                </div>
+                <div class="acard">
+                  <div class="acard-h"><i class="ti ti-chart-pie"></i><span data-es="Presupuesto vs. real" data-en="Budget vs actual">Budget vs actual</span></div>
+                  <div class="bbar"><div class="bt"><span class="nm">groceries</span><span class="vv">₡288K</span></div><div class="tr"><i style="width:92%"></i></div></div>
+                  <div class="bbar"><div class="bt"><span class="nm">personal_care</span><span class="vv">₡176K</span></div><div class="tr"><i style="width:62%"></i></div></div>
+                  <div class="bbar"><div class="bt"><span class="nm">utilities</span><span class="vv">₡94K</span></div><div class="tr"><i style="width:40%"></i></div></div>
+                  <div class="bbar"><div class="bt"><span class="nm">dining</span><span class="vv">₡58K</span></div><div class="tr"><i style="width:26%"></i></div></div>
+                </div>
+              </div>
+
+              <!-- Slide 4 · Patrones (Fijo vs flexible + Patrón semanal) -->
+              <div class="screen">
+                <div class="psb"><span>9:41</span><span><i class="ti ti-wifi"></i><i class="ti ti-battery-3"></i></span></div>
+                <div class="acard">
+                  <div class="acard-h"><i class="ti ti-arrows-split"></i><span data-es="Gasto fijo vs. flexible" data-en="Fixed vs flexible spend">Fixed vs flexible spend</span></div>
+                  <div class="acard-sub" data-es="Cuánto de tu gasto podés controlar" data-en="How much of your spending you can control">How much of your spending you can control</div>
+                  <div class="ffrow">
+                    <div><div class="ffp" style="color:#2563eb">38%</div><div class="ffl" data-es="Fijo · ₡234K" data-en="Fixed · ₡234K">Fixed · ₡234K</div></div>
+                    <div style="text-align:right"><div class="ffp" style="color:#f59e0b">62%</div><div class="ffl" data-es="Flexible · ₡382K" data-en="Flexible · ₡382K">Flexible · ₡382K</div></div>
+                  </div>
+                  <div class="fftrack"><i style="width:38%;background:#2563eb"></i><i style="width:62%;background:#f59e0b"></i></div>
+                  <div class="acard-foot" data-es="La mayoría de tu gasto es flexible — buen margen para optimizar." data-en="Most of your spending is flexible — good room to optimize.">Most of your spending is flexible — good room to optimize.</div>
+                </div>
+                <div class="acard">
+                  <div class="acard-h"><i class="ti ti-chart-bar"></i><span data-es="Patrón semanal" data-en="Weekly pattern">Weekly pattern</span></div>
+                  <div class="acard-sub" data-es="El domingo concentra tu mayor gasto" data-en="Sunday drives your highest spending">Sunday drives your highest spending</div>
+                  <div class="wbars">
+                    <div class="wb"><i style="height:48%"></i><span data-es="L" data-en="M">M</span></div>
+                    <div class="wb"><i style="height:30%"></i><span data-es="M" data-en="T">T</span></div>
+                    <div class="wb"><i style="height:55%"></i><span data-es="M" data-en="W">W</span></div>
+                    <div class="wb"><i style="height:70%"></i><span data-es="J" data-en="T">T</span></div>
+                    <div class="wb"><i style="height:60%"></i><span data-es="V" data-en="F">F</span></div>
+                    <div class="wb"><i style="height:72%"></i><span data-es="S" data-en="S">S</span></div>
+                    <div class="wb peak"><i style="height:92%"></i><span data-es="D" data-en="S">S</span></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="carrow">
+          <div class="dots" id="dots"></div>
+        </div>
+        <div class="slabel" id="slabel"></div>
+      </div>
+    </div>
+
+    <!-- ░░░░░░░░ ACTO 4 · CONOCÉ A ZENNY ░░░░░░░░ -->
+    <div class="act act-zenny" id="story-3" data-bg="/src/story/05_habitat.jpg" data-zoom="1.16" data-name="Zenny">
+      <div class="l-bg"></div>
+      <div class="grade story"></div>
+      <div class="afog"></div>
+      <canvas class="sp"></canvas>
+      <div class="vig"></div>
+      <div class="l-content">
+        <div class="zenny-wrap">
+          <div class="zenny-fig">
+            <div class="glow"></div>
+            <img id="zennyImg" src="/src/zenny/pointing.png" alt="Zenny">
+          </div>
+          <div class="zenny-side">
+            <span class="scene-tag"><i class="ti ti-leaf"></i><span data-es="Nunca caminás solo" data-en="You never walk alone">You never walk alone</span></span>
+            <h2 data-es="Conocé a <em>Zenny</em>" data-en="Meet <em>Zenny</em>">Meet <em>Zenny</em></h2>
+            <p class="sub" data-es="Abrís Zenloth y Zenny ya te está esperando. Lee tus gastos y te guía con consejos claros, sin juzgar — como un perezoso sabio que siempre va a tu ritmo." data-en="You open Zenloth and Zenny is already there. He reads your spending and guides you with clear, judgment-free advice — like a wise sloth that always moves at your pace.">You open Zenloth and Zenny is already there. He reads your spending and guides you with clear, judgment-free advice — like a wise sloth that always moves at your pace.</p>
+            <div class="zchat" id="zchat">
+              <div class="cbub z" data-es="Vas <b>₡12.400</b> bajo tu promedio de comida esta semana 🌿" data-en="You're <b>₡12,400</b> under your food average this week 🌿">You're <b>₡12,400</b> under your food average this week 🌿</div>
+              <div class="ztyping u" aria-hidden="true"><span></span><span></span><span></span></div>
+              <div class="cbub u" data-es="¿Cuánto puedo ahorrar este mes?" data-en="How much can I save this month?">How much can I save this month?</div>
+              <div class="cbub z" data-es="Si seguís así, <b>₡96.000</b>. Te ayudo a apartarlos 🌿" data-en="At this rate, <b>₡96,000</b>. I'll help you set it aside 🌿">At this rate, <b>₡96,000</b>. I'll help you set it aside 🌿</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░░░░░░░ ACTO 5 · CAFÉ EN LA SELVA ░░░░░░░░ -->
+    <div class="act" id="story-4" data-bg="/src/story/03_cafe.jpg" data-zoom="1.20" data-name="Tu día">
+      <div class="l-bg"></div>
+      <div class="grade warm"></div>
+      <div class="vig"></div>
+      <div class="l-content">
+        <span class="scene-tag"><i class="ti ti-coffee"></i><span data-es="Tu día a día" data-en="Everyday">Everyday</span></span>
+        <h2 data-es="La calma de <em>tenerlo claro</em>" data-en="The calm of <em>clarity</em>">The calm of <em>clarity</em></h2>
+        <p class="sub" data-es="Un café, tu teléfono y la tranquilidad de saber que todo está en orden. Zenloth trabaja por vos, en silencio." data-en="A coffee, your phone, and the peace of knowing everything's in order. Zenloth works for you, quietly.">A coffee, your phone, and the peace of knowing everything's in order. Zenloth works for you, quietly.</p>
+      </div>
+    </div>
+
+    <!-- ░░░░░░░░ ACTO 6 · EL DESTINO (yoga) ░░░░░░░░ -->
+    <div class="act" id="story-5" data-bg="/src/story/04_yoga.jpg" data-zoom="1.18" data-name="El destino">
+      <div class="l-bg"></div>
+      <video class="l-video" data-src="/src/video/yoga-breathe.mp4" muted="" loop="" playsinline="" autoplay="" preload="none"></video>
+      <div class="grade warm"></div>
+      <div class="vig"></div>
+      <div class="l-content">
+        <span class="scene-tag"><i class="ti ti-sun"></i><span data-es="El destino" data-en="The destination">The destination</span></span>
+        <h2 data-es="Ordená tu dinero.<br>Encontrá tu <em>calma</em>." data-en="Sort your money.<br>Find your <em>calm</em>.">Sort your money.<br>Find your <em>calm</em>.</h2>
+        <p class="sub" data-es="Imaginá respirar tranquilo con tus finanzas en orden. Empezá hoy — tenés una prueba gratis de 7 días." data-en="Imagine breathing easy with your finances in order. Start today — your 7-day trial is free.">Imagine breathing easy with your finances in order. Start today — your 7-day trial is free.</p>
+        <div class="cta">
+          <a href="https://zenloth.tech/" target="_blank" rel="noopener" class="btn btn-esm" data-es="Probá 7 días gratis" data-en="Try 7 days free">Try 7 days free</a>
+          <a href="#features" class="btn btn-ghost" data-es="Ver funciones" data-en="See features">See features</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════ FUNCIONES ═══════════════ -->
+<section class="sec alt" id="features">
+  <div class="sec-bg" style="background-image:url('/src/canopy-sm.jpg')"></div>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="eyebrow" data-es="Funciones" data-en="Features">Features</span>
+      <h2 data-es="Todo lo que necesitás para <em>crecer</em>" data-en="Everything you need to <em>grow</em>">Everything you need to <em>grow</em></h2>
+      <p data-es="Herramientas simples, pensadas para tu día a día." data-en="Simple tools, made for everyday life.">Simple tools, made for everyday life.</p>
+    </div>
+    <div class="bento">
+      <div class="fcard lg rv"><div class="fi"><i class="ti ti-sparkles"></i></div><h3 data-es="Zenny, tu coach con IA" data-en="Zenny, your AI coach">Zenny, your AI coach</h3><p data-es="No solo ves tus números: Zenny te dice qué significan y cuál es tu siguiente paso, en lenguaje claro y sin culpa." data-en="You don't just see your numbers: Zenny tells you what they mean and your next step — in plain language, no guilt.">You don't just see your numbers: Zenny tells you what they mean and your next step — in plain language, no guilt.</p><span class="tagline"><i class="ti ti-leaf"></i><span data-es="Lo que nos hace distintos" data-en="What makes us different">What makes us different</span></span></div>
+      <div class="fcard rv"><div class="fi"><i class="ti ti-chart-pie"></i></div><h3 data-es="Presupuestos vivos" data-en="Living budgets">Living budgets</h3><p data-es="Se ajustan solos a tu mes y te avisan antes de pasarte." data-en="They adjust to your month and warn you before you overspend.">They adjust to your month and warn you before you overspend.</p></div>
+      <div class="fcard rv"><div class="fi"><i class="ti ti-target-arrow"></i></div><h3 data-es="Metas que florecen" data-en="Goals that bloom">Goals that bloom</h3><p data-es="Visualizá cada meta crecer, de vacaciones a fondo de emergencia." data-en="Watch each goal grow, from vacations to an emergency fund.">Watch each goal grow, from vacations to an emergency fund.</p></div>
+      <div class="fcard warm rv"><div class="fi"><i class="ti ti-coin"></i></div><h3 data-es="Colones y dólares" data-en="Colones &amp; dollars">Colones &amp; dollars</h3><p data-es="Manejá CRC y USD juntos, sin enredos de conversión." data-en="Handle CRC and USD together, no conversion headaches.">Handle CRC and USD together, no conversion headaches.</p></div>
+      <div class="fcard rv"><div class="fi"><i class="ti ti-wand"></i></div><h3 data-es="Categorías automáticas" data-en="Auto categories">Auto categories</h3><p data-es="Cada gasto se ordena solo. Vos solo tenés que vivir." data-en="Every expense sorts itself. You just live.">Every expense sorts itself. You just live.</p></div>
+      <div class="fcard rv"><div class="fi"><i class="ti ti-lock"></i></div><h3 data-es="Tus datos, bajo tu control" data-en="Your data, your control">Your data, your control</h3><p data-es="Ciframos tu información, nunca la vendemos y la borrás cuando querás." data-en="We encrypt your data, never sell it, and you can delete it anytime.">We encrypt your data, never sell it, and you can delete it anytime.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONFIANZA + PRECIOS ═══════════════ -->
+<section class="sec" id="pricing">
+  <div class="sec-bg" style="background-image:url('/src/godrays-sm.jpg')"></div>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="eyebrow" data-es="Por qué Zenloth" data-en="Why Zenloth">Why Zenloth</span>
+      <h2 data-es="Las finanzas no deberían dar <em>ansiedad</em>" data-en="Money shouldn't cause <em>anxiety</em>">Money shouldn't cause <em>anxiety</em></h2>
+    </div>
+    <div class="stats rv">
+      <div><div class="v" data-es="7 de 10" data-en="7 in 10">7 in 10</div><div class="l" data-es="personas sienten estrés por el dinero" data-en="people feel stressed about money">people feel stressed about money</div></div>
+      <div><div class="v" data-es="60%+" data-en="60%+">60%+</div><div class="l" data-es="vive al día, sin un colchón de respaldo" data-en="live paycheck to paycheck, no safety net">live paycheck to paycheck, no safety net</div></div>
+      <div><div class="v" data-es="1 de 3" data-en="1 in 3">1 in 3</div><div class="l" data-es="lleva de verdad un presupuesto" data-en="actually keep a budget">actually keep a budget</div></div>
+    </div>
+    <div class="statcap rv"><i class="ti ti-info-circle"></i><span data-es="El problema que Zenloth resuelve · referencias de estudios de bienestar financiero" data-en="The problem Zenloth solves · figures from financial-wellness studies">The problem Zenloth solves · figures from financial-wellness studies</span></div>
+    <div class="trust rv">
+      <div class="tbadge"><i class="ti ti-eye-off"></i><span data-es="Nunca vendemos tus datos" data-en="We never sell your data">We never sell your data</span></div>
+      <div class="tbadge"><i class="ti ti-database-export"></i><span data-es="Exportás o borrás todo cuando querás" data-en="Export or delete everything, anytime">Export or delete everything, anytime</span></div>
+      <div class="tbadge"><i class="ti ti-leaf"></i><span data-es="Hecho en Costa Rica" data-en="Built in Costa Rica">Built in Costa Rica</span></div>
+    </div>
+    <div class="shead rv" style="margin:34px auto 38px">
+      <span class="eyebrow" data-es="Precios" data-en="Pricing">Pricing</span>
+      <h2 data-es="Un plan, <em>todo incluido</em>" data-en="One plan, <em>everything included</em>">One plan, <em>everything included</em></h2>
+      <p data-es="Tu prueba gratis dura 7 días. No hay versión limitada — desde el día uno tenés Zenloth completo." data-en="Your 7-day trial is free. No limited tier — you get the full Zenloth from day one.">Your 7-day trial is free. No limited tier — you get the full Zenloth from day one.</p>
+    </div>
+    <div class="prices rv">
+      <div class="pcard">
+        <div class="pname" data-es="Mensual" data-en="Monthly">Monthly</div>
+        <div class="price"><strong class="current-price">₡6.500<span data-es="/mes" data-en="/mo">/mo</span></strong></div>
+        <div class="anchor" data-es="Menos que un café por semana por claridad total de tu plata." data-en="Less than a coffee a week for total clarity on your money.">Less than a coffee a week for total clarity on your money.</div>
+        <div class="ptrial"><i class="ti ti-gift"></i><span data-es="Prueba de 7 días" data-en="7-day free trial">7-day free trial</span></div>
+        <ul>
+          <li><i class="ti ti-check"></i><span data-es="Cuentas y movimientos ilimitados" data-en="Unlimited accounts &amp; transactions">Unlimited accounts &amp; transactions</span></li>
+          <li><i class="ti ti-check"></i><span data-es="Presupuestos, metas y proyecciones" data-en="Budgets, goals &amp; projections">Budgets, goals &amp; projections</span></li>
+          <li><i class="ti ti-check"></i><span data-es="Coach Zenny con IA" data-en="AI Zenny coach">AI Zenny coach</span></li>
+          <li><i class="ti ti-check"></i><span data-es="Colones y dólares en un solo lugar" data-en="Colones &amp; dollars in one place">Colones &amp; dollars in one place</span></li>
+        </ul>
+        <a href="https://zenloth.tech/" target="_blank" rel="noopener" class="btn btn-ghost" data-es="Empezar mi prueba de 7 días" data-en="Start my 7-day trial">Start my 7-day trial</a>
+        <div class="pguar"><i class="ti ti-shield-check"></i><span data-es="Sin tarjeta para la prueba · cancelás cuando querás" data-en="No card for the trial · cancel anytime">No card for the trial · cancel anytime</span></div>
+      </div>
+      <div class="pcard feat">
+        <div class="badge" data-es="Ahorrá 10%" data-en="Save 10%">Save 10%</div>
+        <div class="pname" data-es="Anual" data-en="Annual">Annual</div>
+        <div class="price"><span class="pwas">₡78.000</span><strong class="current-price">₡70.200<span data-es="/año" data-en="/yr">/yr</span></strong></div>
+        <div class="anchor" data-es="Como un cafecito al mes (₡5.850) — y dos meses te salen gratis al año." data-en="Like one coffee a month (₡5,850) — about two months free per year.">Like one coffee a month (₡5,850) — about two months free per year.</div>
+        <div class="ptrial"><i class="ti ti-gift"></i><span data-es="Prueba de 7 días incluida" data-en="7-day trial included">7-day trial included</span></div>
+        <ul>
+          <li><i class="ti ti-check"></i><span data-es="Todo lo del plan mensual" data-en="Everything in Monthly">Everything in Monthly</span></li>
+          <li><i class="ti ti-check"></i><span data-es="10% de descuento sobre ₡78.000" data-en="10% off ₡78,000">10% off ₡78,000</span></li>
+          <li><i class="ti ti-check"></i><span data-es="Reportes avanzados y exportación" data-en="Advanced reports &amp; export">Advanced reports &amp; export</span></li>
+          <li><i class="ti ti-check"></i><span data-es="Soporte prioritario" data-en="Priority support">Priority support</span></li>
+        </ul>
+        <a href="https://zenloth.tech/" target="_blank" rel="noopener" class="btn btn-esm" data-es="Empezar mi prueba de 7 días" data-en="Start my 7-day trial">Start my 7-day trial</a>
+        <div class="pguar"><i class="ti ti-shield-check"></i><span data-es="Sin tarjeta para la prueba · cancelás cuando querás" data-en="No card for the trial · cancel anytime">No card for the trial · cancel anytime</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+</main>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <img class="logo" src="/src/logo/zenloth-lockup-white.png" alt="Zenloth" loading="lazy" decoding="async">
+        <p class="fabout" data-es="Bienestar financiero con la calma de Costa Rica. Hecho para tu ritmo." data-en="Financial wellness with the calm of Costa Rica. Made for your pace.">Financial wellness with the calm of Costa Rica. Made for your pace.</p>
+      </div>
+      <div class="fcol"><h4 data-es="Producto" data-en="Product">Product</h4><a href="#features" data-es="Funciones" data-en="Features">Features</a><a href="#pricing" data-es="Precios" data-en="Pricing">Pricing</a><a href="/en/info.html#seguridad" data-es="Seguridad" data-en="Security">Security</a><a href="/en/info.html#acceso-web" data-es="Acceso web" data-en="Web app">Web app</a></div>
+      <div class="fcol"><h4 data-es="Compañía" data-en="Company">Company</h4><a href="/en/info.html#sobre-nosotros" data-es="Sobre nosotros" data-en="About">About</a><a href="/en/info.html#comunidad" data-es="Comunidad" data-en="Community">Community</a><a href="/en/info.html#blog">Blog</a><a href="/en/info.html#contacto" data-es="Contacto" data-en="Contact">Contact</a></div>
+      <div class="fcol"><h4>Legal</h4><a href="/en/info.html#terminos" data-es="Términos" data-en="Terms">Terms</a><a href="/en/info.html#privacidad" data-es="Privacidad" data-en="Privacy">Privacy</a><a href="/en/info.html#cookies">Cookies</a></div>
+    </div>
+    <div class="fbottom">
+      <div>© 2026 Zenloth · <span data-es="Hecho con" data-en="Made with">Made with</span> 🌿 <span data-es="en Costa Rica" data-en="in Costa Rica">in Costa Rica</span></div>
+      <a class="lang" id="lang3" href="/" lang="es" hreflang="es">ES</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ COOKIES ═══════════════ -->
+<div class="cookiebar hide" id="cookiebar" role="dialog" aria-label="Cookies">
+  <div class="cookietext"><i class="ti ti-cookie"></i><span class="ck-full" data-es="Usamos cookies esenciales para que el sitio funcione y, solo si aceptás, un mínimo de analítica anónima para mejorar. Nada de rastreo publicitario." data-en="We use essential cookies to run the site and, only if you accept, minimal anonymous analytics to improve. No ad tracking.">We use essential cookies to run the site and, only if you accept, minimal anonymous analytics to improve. No ad tracking.</span><span class="ck-mini" data-es="Usamos cookies esenciales y analítica anónima. Sin rastreo publicitario." data-en="We use essential cookies and anonymous analytics. No ad tracking.">We use essential cookies and anonymous analytics. No ad tracking.</span></div>
+  <div class="cookiebtns">
+    <button class="btn-ck ghost" id="ckEss" data-es="Solo esenciales" data-en="Essentials only">Essentials only</button>
+    <button class="btn-ck ok" id="ckAll" data-es="Aceptar todo" data-en="Accept all">Accept all</button>
+    <a class="cklink" href="/en/info.html#cookies" data-es="Más info" data-en="Learn more">Learn more</a>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   ✏️  CONFIG — logos, Zenny y videos (cambiá las rutas aquí)
+   ════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  logo:        '/src/logo/zenloth-lockup-white.png',
+  zennySymbol: '/src/logo/zenloth-symbol-white.png',   // avatar en el anillo del coach
+  zennyImg:    '/src/zenny/pointing-sm.png',           // Zenny en la escena "Conocé a Zenny" (versión liviana)
+  // Videos Higgsfield (se activan solos cuando los archivos existan):
+  heroVideo:       '/src/video/hero-cinemagraph.mp4',
+  zennyVideo:      '/src/video/zenny-loop.mp4',
+  transitionVideo: '/src/video/transition-phone.mp4',  // vuelo hacia el teléfono (se controla con el scroll)
+  ACT_VH: 135   // largo de scroll por escena (más alto = más lento/cinemático)
+};
+
+/* ——— idioma ES/EN ——— */
+const T={es:'EN',en:'ES'};let lang=document.documentElement.lang;
+function setLang(l){lang=l;document.documentElement.lang=l;try{localStorage.setItem('zl_lang',l)}catch(e){}
+  document.querySelectorAll('[data-es]').forEach(n=>{const v=n.getAttribute('data-'+l);if(v!=null)n.innerHTML=v});
+  ['lang','lang2','lang3'].forEach(id=>{const b=document.getElementById(id);if(b)b.textContent=T[l]});
+  buildDots();
+}
+['lang','lang2','lang3'].forEach(id=>{const b=document.getElementById(id);if(b)b.setAttribute('href',lang==='es'?'/en/':'/')});
+
+/* ——— aplica rutas de CONFIG ——— */
+document.getElementById('navlogo').src=CONFIG.logo;
+document.getElementById('zennyImg').src=CONFIG.zennyImg;
+
+/* ——— nav scrolled ——— */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const navToggle=document.querySelector('.nav-toggle');
+const navLinks=document.getElementById('navlinks');
+const narrowNav=matchMedia('(max-width:900px)');
+function closeNav(restore=false){
+  const hadFocus=navLinks.contains(document.activeElement);
+  navLinks.classList.remove('open');navToggle.setAttribute('aria-expanded','false');
+  if(restore&&hadFocus)navToggle.focus();
+}
+navToggle.addEventListener('click',()=>{
+  const open=navToggle.getAttribute('aria-expanded')!=='true';
+  navToggle.setAttribute('aria-expanded',String(open));navLinks.classList.toggle('open',open);
+});
+navLinks.addEventListener('click',e=>{
+  const link=e.target.closest('a');if(!link||!narrowNav.matches)return;
+  closeNav();
+  if(!link.dataset.go&&link.hash){
+    const destination=document.querySelector(link.hash);
+    if(destination){destination.tabIndex=-1;destination.focus({preventScroll:true});}
+  }
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navToggle.getAttribute('aria-expanded')==='true'){e.preventDefault();closeNav(true);navToggle.focus();}});
+document.addEventListener('pointerdown',e=>{if(!nav.contains(e.target))closeNav(true);});
+narrowNav.addEventListener('change',()=>{
+  const focused=document.activeElement;
+  if(narrowNav.matches&&navLinks.contains(focused)){closeNav();navToggle.focus();}
+  else{closeNav();if(!narrowNav.matches&&focused===navToggle)navLinks.querySelector('a').focus();}
+});
+document.body.classList.add('nav-ready');
+
+
+/* ——— reveal de secciones marketing ——— */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.14});
+document.querySelectorAll('.rv').forEach(n=>io.observe(n));
+
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+let REDUCE=motionPreference.matches;
+
+/* ════════════════ MOTOR DEL CINEMA ════════════════ */
+const cinema=document.getElementById('cinema');
+const stage=cinema.querySelector('.stage');
+const acts=[...stage.querySelectorAll('.act')];
+const N=acts.length;
+const T_FADE=0.30;        // ancho del cross-dissolve (fracción de escena) — más corto = fundido más ágil
+
+// fondos + capas desde data-*
+// imágenes responsive: -sm (≈960px) en móvil/tablet, -lg (1376px recomprimido) en desktop.
+// Si la versión no existe, cae a la original.
+function sceneSrc(p){
+  const v = innerWidth<=1024 ? '-sm' : '-lg';
+  return p.replace(/\.(jpe?g|png)$/i, v+'.$1');
+}
+acts.forEach(a=>{
+  const bg=a.querySelector('.l-bg'); if(bg&&a.dataset.bg) bg.style.backgroundImage=`url('${sceneSrc(a.dataset.bg)}')`;
+  const fg=a.querySelector('.l-fg'); if(fg&&a.dataset.fg) fg.style.backgroundImage=`url('${a.dataset.fg}')`;
+});
+
+// videos opcionales (Higgsfield): cross-dissolve al cargar.
+// En móvil / datos limitados / reduced-motion NO se descargan — queda la imagen .l-bg de fondo.
+const SAVE=!!(navigator.connection&&navigator.connection.saveData);
+const SKIP_VIDEO=REDUCE||innerWidth<=820||innerHeight<=600||SAVE;
+const actVideos=acts.map(a=>a.querySelector('.l-video'));
+function loadVideo(v){
+  if(!v||v.dataset.loaded||!v.dataset.src) return;
+  v.dataset.loaded='1';
+  v.addEventListener('error',()=>{v.remove();});
+  // UNA sola vez (si se engancha al loop, el fundido se reinicia cada vuelta y queda en 0).
+  // play() va DENTRO de canplay: si se llama antes, se aborta (AbortError) por interrumpir la carga.
+  v.addEventListener('canplay',()=>{
+    v.style.display='block';
+    v.classList.add('ready');   // clase con opacity:1 + animación de fundido (no se "pega" como la transición)
+    v.play().catch(()=>{});
+  },{once:true});
+  v.src=v.dataset.src;
+  v.load();   // inicia la descarga (preload="none" no arranca solo)
+}
+if(SKIP_VIDEO){
+  actVideos.forEach(v=>{if(v)v.remove();});   // la imagen de escena (.l-bg) queda como fondo
+}else{
+  loadVideo(actVideos[0]);                     // el héroe carga ya; el resto, al acercarse su escena
+}
+
+// video de transición — NO se reproduce solo; se controla ("scrub") con el scroll
+const transVid=document.querySelector('.l-trans');
+let transReady=false;
+if(transVid){
+  transVid.src=CONFIG.transitionVideo;
+  transVid.addEventListener('loadeddata',()=>{transVid.pause();transReady=true;transVid.style.opacity='1';});
+  transVid.addEventListener('error',()=>{transVid.remove();});
+}
+
+// largo de scroll por escena, más corto en pantallas chicas (cine más ágil en móvil/tablet)
+function actVH(){return innerWidth<=720 ? 90 : (innerWidth<=1024 ? 112 : CONFIG.ACT_VH);}
+// pesos por escena: la del teléfono recibe MÁS recorrido de scroll para que el
+// carrusel de pantallas avance despacio (antes, un flick en móvil pasaba todas).
+function actWeights(){
+  const w=acts.map(a=>a.classList.contains('act-phone') ? (innerWidth<=820?4.4:3.6) : 1);
+  const c=[0]; w.forEach(x=>c.push(c[c.length-1]+x));
+  return {w,c,total:c[N]};
+}
+let AW=actWeights();
+function setHeight(){AW=actWeights();cinema.style.height=(AW.total*actVH())+'vh';}
+
+let target=0,cur=0;
+function measure(){
+  if(!document.body.classList.contains('cinema-ready'))return;
+  const total=cinema.offsetHeight-innerHeight;
+  const scrolled=Math.min(Math.max(-cinema.getBoundingClientRect().top,0),total);
+  const sw=total>0?(scrolled/total)*AW.total:0;      // posición en unidades de peso
+  let i=0; while(i<N-1&&sw>=AW.c[i+1]) i++;
+  target=i+(sw-AW.c[i])/AW.w[i];
+}
+
+function render(fp){
+  let active=Math.min(N-1,Math.max(0,Math.round(fp-0.5)));
+  if(!SKIP_VIDEO){loadVideo(actVideos[active]);loadVideo(actVideos[active+1]);}
+  for(let i=0;i<N;i++){
+    const a=acts[i], local=fp-i;
+    let op;
+    if(local<=-T_FADE) op=0;
+    else if(local<0) op=(local+T_FADE)/T_FADE;
+    else if(local<1) op=1;
+    else op=0;
+    if(i===0&&local<0) op=1;
+    if(i===N-1&&local>=1) op=1;
+    a.style.opacity=op.toFixed(3);
+    a.style.visibility=op<=.002?'hidden':'visible';
+    a.classList.toggle('show',op>.5);
+    a.inert=op<.95;
+
+    const t=Math.max(0,Math.min(1,local));
+    const bg=a.querySelector('.l-bg');
+    if(bg){const z=parseFloat(a.dataset.zoom||'1.18');const s=1.04+t*(z-1.04);bg.style.transform=`scale(${s.toFixed(4)}) translateY(${((t-.5)*-2.4).toFixed(2)}%)`;}
+    const vid=a.querySelector('.l-video');
+    if(vid){const z=parseFloat(a.dataset.zoom||'1.18');const s=1.0+t*(z-1.04);vid.style.transform=`scale(${s.toFixed(4)})`;}
+    const fg=a.querySelector('.l-fg'); if(fg) fg.style.transform=`scale(1.12) translateY(${(t*-6).toFixed(2)}%)`;
+    const c=a.querySelector('.l-content');
+    if(c){
+      // la copia entra mientras la escena aparece (cross-dissolve) y sale cerca del final
+      const inP=Math.min(1,Math.max(0,(local+0.28)/0.26));
+      const outP=Math.min(1,Math.max(0,(local-0.74)/0.22));
+      c.style.opacity=(a.contains(document.activeElement)?1:inP*(1-outP)).toFixed(3);
+      c.style.transform=a.contains(document.activeElement)?'none':`translateY(${((1-inP)*42-outP*48).toFixed(1)}px)`;
+    }
+    const ph=a.querySelector('.cine-phone');
+    if(ph){const s=0.86+t*0.20;ph.style.transform=`scale(${s.toFixed(3)})`;}
+    // las pantallas de la app avanzan con el scroll (carrusel controlado por scroll)
+    if(a.classList.contains('act-phone')) scrubCarousel(t);
+  }
+  // puntos de progreso
+  if(active!==lastActive){lastActive=active;document.querySelectorAll('#progress button').forEach((b,i)=>b.classList.toggle('on',i===active));}
+}
+let lastActive=-1,animationFrame=null;
+function loop(){if(!document.body.classList.contains('cinema-ready')){animationFrame=null;return;}cur+=(target-cur)*0.13;if(Math.abs(target-cur)<1e-4)cur=target;render(cur);animationFrame=requestAnimationFrame(loop);}
+
+/* puntos laterales + navegación por escena */
+function jumpTo(i,focus=false,smooth=true,phase=0.35){
+  const scene=acts[i];if(!scene)return;
+  if(document.body.classList.contains('cinema-ready')){
+    const total=cinema.offsetHeight-innerHeight;
+    const position=i+phase;
+    const y=cinema.offsetTop+((AW.c[i]+phase*AW.w[i])/AW.total)*total;
+    if(focus){target=cur=position;render(cur);}
+    scrollTo({top:y,behavior:smooth&&!focus&&!REDUCE?'smooth':'instant'});
+  }else scene.scrollIntoView({block:'start',behavior:smooth&&!REDUCE?'smooth':'instant'});
+  if(focus){scene.inert=false;const heading=scene.querySelector('h1,h2')||scene;heading.tabIndex=-1;heading.focus({preventScroll:true});}
+}
+const prog=document.getElementById('progress');
+acts.forEach((a,i)=>{const b=document.createElement('button');b.title=a.dataset.name||('Escena '+(i+1));b.onclick=()=>jumpTo(i);prog.appendChild(b);});
+document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();closeNav();jumpTo(Number(el.dataset.go),true);}));
+// los puntos de progreso solo se ven mientras estás dentro de la historia
+const progIO=new IntersectionObserver(es=>es.forEach(e=>{prog.style.opacity=e.isIntersecting?'1':'0';prog.style.pointerEvents=e.isIntersecting?'auto':'none';}),{threshold:0});
+progIO.observe(cinema);
+
+/* ——— aterrizaje suave: al soltar el scroll, la historia nunca queda a media transición.
+       Si parás en medio de una disolvencia, la escena retrocede o completa el cambio;
+       dentro del carrusel del teléfono, aterriza en la pantalla más cercana. ——— */
+const FADE_START=1-T_FADE;          // punto donde arranca el cross-dissolve hacia la escena siguiente
+function fpToY(fp){
+  const i=Math.min(N-1,Math.max(0,Math.floor(fp)));
+  const total=cinema.offsetHeight-innerHeight;
+  return cinema.offsetTop+((AW.c[i]+(fp-i)*AW.w[i])/AW.total)*total;
+}
+function settle(){
+  if(!document.body.classList.contains('cinema-ready')||acts.some(a=>a.contains(document.activeElement)))return;
+  const fp=target;
+  if(fp<=0.08||fp>=N-0.12)return;   // en los bordes de la historia no intervenimos
+  const i=Math.min(N-1,Math.max(0,Math.floor(fp)));
+  const local=fp-i;
+  const isPhone=acts[i].classList.contains('act-phone');
+  let dest=null;
+  if(isPhone&&local>=CAR_FROM&&local<=CAR_TO+0.02){
+    // carrusel: nunca descansar a media pantalla de la app
+    const last=slides.length-1;
+    const pos=((local-CAR_FROM)/(CAR_TO-CAR_FROM))*last;
+    const near=Math.round(pos);
+    if(Math.abs(pos-near)>0.04) dest=i+CAR_FROM+(near/last)*(CAR_TO-CAR_FROM);
+  }else{
+    const zoneStart=isPhone?CAR_TO+0.02:FADE_START+0.02;
+    const stableEnd=isPhone?CAR_TO:FADE_START-0.03;
+    if(local>zoneStart){
+      const mid=(zoneStart+1)/2;
+      if(local<mid) dest=i+stableEnd;                 // retrocede a la escena actual
+      else if(i<N-1) dest=i+1+0.08;                   // completa el cambio a la siguiente
+    }
+  }
+  if(dest!=null&&Math.abs(dest-fp)>0.02) scrollTo({top:fpToY(dest),behavior:'smooth'});
+}
+let snapT=null,touching=false;
+addEventListener('touchstart',()=>{touching=true;clearTimeout(snapT);},{passive:true});
+addEventListener('touchend',()=>{touching=false;clearTimeout(snapT);snapT=setTimeout(settle,180);},{passive:true});
+addEventListener('scroll',()=>{if(touching)return;clearTimeout(snapT);snapT=setTimeout(settle,180);},{passive:true});
+
+/* ════════════════ CARRUSEL DEL TELÉFONO · controlado por el scroll ════════════════ */
+const track=document.getElementById('track');
+const slides=[...track.children];
+const dotsBox=document.getElementById('dots');
+const slabel=document.getElementById('slabel');
+const labels={es:['Inicio','Transacciones','Análisis','Patrones'],en:['Home','Transactions','Insights','Patterns']};
+let ci=0;
+track.style.transition='none';                 // el scroll mueve el track directamente (sin lag)
+// Botones en flujo normal; indicadores deshabilitados en el cinema.
+function buildDots(){
+  slides.forEach((s,i)=>{
+    let b=dotsBox.children[i];
+    if(!b){
+      b=document.createElement('button');b.type='button';
+      b.addEventListener('click',()=>{const scroller=track.parentElement;scroller.scrollTo({left:i*scroller.clientWidth,behavior:REDUCE?'instant':'smooth'});});
+      dotsBox.appendChild(b);
+    }
+    b.className=i===ci?'on':'';b.disabled=document.body.classList.contains('cinema-ready');
+    b.textContent=String(i+1);b.setAttribute('aria-label',(labels[lang]||labels.es)[i]);
+  });updLabel();
+}
+track.parentElement.addEventListener('scroll',()=>{if(document.body.classList.contains('cinema-ready'))return;ci=Math.round(track.parentElement.scrollLeft/track.parentElement.clientWidth);[...dotsBox.children].forEach((b,i)=>b.classList.toggle('on',i===ci));updLabel();},{passive:true});
+function updLabel(){const L=labels[lang]||labels.es;slabel.textContent=L[ci]||'';}
+// progreso 0..1 de la escena del teléfono → posición del carrusel; deslizá para avanzar de pantalla
+// el carrusel termina ANTES de que arranque el fundido (FADE_START=1-T_FADE=0.70),
+// y deja una pausa en la última pantalla para que "Patrones" no se pierda en la transición.
+const CAR_FROM=0.06, CAR_TO=0.60;
+function scrubCarousel(t){
+  const last=slides.length-1;
+  let p=(t-CAR_FROM)/(CAR_TO-CAR_FROM); p=p<0?0:p>1?1:p;
+  const pos=p*last;
+  track.style.transform=`translateX(${(-pos*100).toFixed(3)}%)`;
+  const idx=Math.round(pos);
+  if(idx!==ci){ci=idx;[...dotsBox.children].forEach((d,k)=>d.classList.toggle('on',k===ci));updLabel();}
+}
+buildDots();
+
+/* ════════════════ PARTÍCULAS (esporas) ════════════════ */
+function spores(cv,n){
+  const x=cv.getContext('2d');let w,h,pts=[];
+  function sz(){const s=cv.parentElement;w=cv.width=s.offsetWidth;h=cv.height=s.offsetHeight;
+    pts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.9+.4,s:Math.random()*.3+.08,d:Math.random()*6.28}));}
+  sz();addEventListener('resize',sz);
+  (function lp(){x.clearRect(0,0,w,h);for(const p of pts){p.y-=p.s;p.x+=Math.sin(p.d+=.007)*.25;if(p.y<-5){p.y=h+5;p.x=Math.random()*w}
+    x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle='rgba(190,255,215,'+(.45*p.r/2.3)+')';x.fill()}requestAnimationFrame(lp)})();
+}
+
+/* ════════════════ CONVERSACIÓN DE ZENNY · efecto de mensajería ════════════════
+   Las burbujas aparecen una por una, con "Zenny está escribiendo…" antes de
+   cada respuesta. Se reinicia cada vez que entrás a la escena de Zenny.        */
+(function(){
+  const scene=document.querySelector('.act-zenny');
+  const chat=document.getElementById('zchat');
+  if(!scene||!chat) return;
+  const typ=[...chat.querySelectorAll('.ztyping')];   // [escritura del usuario]
+  const bub=[...chat.querySelectorAll('.cbub')];        // [zenny, vos, zenny]
+  let timers=[];
+  const at=(ms,fn)=>timers.push(setTimeout(fn,ms));
+  function reset(){timers.forEach(clearTimeout);timers=[];[...typ,...bub].forEach(el=>el.classList.remove('in'));}
+  function play(){
+    reset();
+    at(220 ,()=>bub[0].classList.add('in'));                                  // Zenny: aparece rápido, sin escribir
+    at(900 ,()=>typ[0].classList.add('in'));                                  // vos escribiendo…
+    at(1850,()=>{typ[0].classList.remove('in');bub[1].classList.add('in');}); // tu pregunta entra desde la derecha
+    at(2350,()=>bub[2].classList.add('in'));                                  // Zenny: respuesta rápida, sin escribir
+  }
+  if(REDUCE){bub.forEach(b=>b.classList.add('in'));typ.forEach(t=>t.remove());}
+  else{
+    let shown=false;
+    new MutationObserver(()=>{
+      const on=scene.classList.contains('show');
+      if(on&&!shown){shown=true;play();}
+      else if(!on&&shown){shown=false;reset();}
+    }).observe(scene,{attributes:true,attributeFilter:['class']});
+    if(scene.classList.contains('show')){shown=true;play();}
+  }
+})();
+
+/* ════════════════ ARRANQUE ════════════════ */
+function contentHeight(){
+  // Measure natural layout in an isolated, inert scene, independent of current mode.
+  let required=0;
+  acts.forEach(a=>{
+    const shell=document.createElement('div');shell.className=a.className;
+    shell.style.cssText='position:fixed;inset:auto;top:0;left:0;width:'+innerWidth+'px;height:auto;min-height:0;visibility:hidden!important;pointer-events:none';
+    shell.inert=true;shell.setAttribute('aria-hidden','true');
+    const copy=a.querySelector('.l-content').cloneNode(true);
+    copy.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+    copy.querySelectorAll('.cbub').forEach(n=>n.style.display='block');
+    copy.style.cssText='position:relative;inset:auto;height:auto;min-height:0;transform:none;opacity:1';
+    shell.append(copy);document.body.append(shell);required=Math.max(required,copy.scrollHeight);shell.remove();
+  });
+  return required;
+}
+let layoutTimer=null;
+function updateLayout(preserve=true){
+  const wasCinema=document.body.classList.contains('cinema-ready');
+  const focusTarget=document.activeElement;
+  const focused=acts.findIndex(a=>a.contains(focusTarget));
+  let current=focused>=0?focused:wasCinema?Math.min(N-1,Math.floor(target)):acts.findIndex(a=>a.getBoundingClientRect().bottom>90);
+  if(current<0)current=0;
+  const inside=cinema.getBoundingClientRect().top<innerHeight&&cinema.getBoundingClientRect().bottom>90;
+  REDUCE=motionPreference.matches;document.body.classList.toggle('reduced',REDUCE);
+  const needed=contentHeight();
+  const useCinema=!REDUCE&&innerHeight>600&&needed+(wasCinema?0:32)<=innerHeight;
+  cancelAnimationFrame(animationFrame);animationFrame=null;clearTimeout(snapT);
+  document.body.classList.toggle('cinema-ready',useCinema);
+  actVideos.forEach(v=>{if(!v)return;if(!useCinema)v.pause();else if(v.dataset.loaded)v.play().catch(()=>{});});
+  acts.forEach(a=>{a.inert=false;});
+  track.parentElement.scrollLeft=useCinema?0:ci*track.parentElement.clientWidth;
+  if(useCinema){
+    setHeight();
+    // Align the new timeline before inert/visibility updates can blur the focused scene.
+    if(preserve&&inside&&!wasCinema){
+      const phase=acts[current].classList.contains('act-phone')?CAR_FROM+(ci/(slides.length-1))*(CAR_TO-CAR_FROM):0.35;
+      jumpTo(current,false,false,phase);
+    }
+    measure();cur=target;render(cur);animationFrame=requestAnimationFrame(loop);
+  }
+  else{cinema.style.height='';acts.forEach(a=>a.classList.remove('show'));}
+  buildDots();
+  if(preserve&&inside&&wasCinema!==useCinema){
+    if(!useCinema)jumpTo(current,false,false);
+    if(focused>=0&&focusTarget.isConnected){
+      const destination=focusTarget.disabled?(acts[focused].querySelector('h1,h2')||acts[focused]):focusTarget;
+      acts[focused].inert=false;if(destination!==focusTarget)destination.tabIndex=-1;destination.focus({preventScroll:true});
+    }
+  }
+}
+function start(){
+  setLang(lang);updateLayout(false);
+  addEventListener('scroll',measure,{passive:true});
+  const schedule=()=>{clearTimeout(layoutTimer);layoutTimer=setTimeout(()=>updateLayout(),120);};
+  addEventListener('resize',schedule);motionPreference.addEventListener('change',schedule);
+  document.fonts.ready.then(schedule);
+  if(!REDUCE&&document.body.classList.contains('cinema-ready'))document.querySelectorAll('.act .sp').forEach(c=>spores(c,22));
+}
+try{start();}catch(error){document.body.classList.remove('cinema-ready');console.error(error);}
+
+
+/* ——— consentimiento de cookies (#12) ——— */
+(function(){
+  const bar=document.getElementById('cookiebar');
+  if(!bar) return;
+  let v=null; try{v=localStorage.getItem('zl_cookie')}catch(e){}
+  if(v){bar.remove();return;}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>bar.classList.remove('hide')));
+  const close=(val)=>{try{localStorage.setItem('zl_cookie',val)}catch(e){}bar.classList.add('hide');setTimeout(()=>bar.remove(),500);};
+  document.getElementById('ckEss').addEventListener('click',()=>close('essential'));
+  document.getElementById('ckAll').addEventListener('click',()=>close('all'));
+})();
+</script>
+</body></html>
