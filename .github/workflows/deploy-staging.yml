@@ -1,0 +1,91 @@
+name: Validate and deploy landing staging preview
+on:
+  push:
+    branches: [staging]
+  pull_request:
+    branches: [staging]
+permissions: {}
+concurrency:
+  group: landing-staging-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.22.0'
+          cache: npm
+      - run: npm ci
+      - run: npm audit
+      - run: npm run build && npm test
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/check-browser.mjs && node scripts/check-responsive.mjs
+      - name: Validate staging export bindings
+        env:
+          LANDING_STAGING_ORIGIN: ${{ vars.LANDING_STAGING_ORIGIN }}
+        run: node scripts/prepare-dev-export.mjs staging && node scripts/check-preview-export.mjs
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22.22.0'
+          cache: npm
+      - run: npm ci
+      - name: Assert exact staging identity before authentication
+        run: test "$GITHUB_REF" = refs/heads/staging
+      - name: Build staging export
+        env:
+          LANDING_STAGING_ORIGIN: ${{ vars.LANDING_STAGING_ORIGIN }}
+        run: npm run build && node scripts/prepare-dev-export.mjs staging && node scripts/check-preview-export.mjs
+      - uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
+        with:
+          role-to-assume: ${{ vars.LANDING_STAGING_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+      - name: Publish preview assets before documents
+        env:
+          S3_BUCKET: ${{ vars.LANDING_STAGING_S3_BUCKET }}
+          DISTRIBUTION_ID: ${{ vars.LANDING_STAGING_DISTRIBUTION_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$S3_BUCKET"
+          test -n "$DISTRIBUTION_ID"
+          aws s3 sync dist/src/ "s3://$S3_BUCKET/src/" --cache-control 'public, max-age=3600'
+          aws s3 cp dist/ "s3://$S3_BUCKET/" --recursive --exclude 'src/*' --cache-control 'no-cache, no-store, must-revalidate'
+          invalidation_id="$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/*' --query 'Invalidation.Id' --output text)"
+          aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION_ID" --id "$invalidation_id"
+      - name: Verify published revision and content digests
+        env:
+          LANDING_STAGING_ORIGIN: ${{ vars.LANDING_STAGING_ORIGIN }}
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {readFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          const local=JSON.parse(readFileSync('dist/release.json'));
+          const response=await fetch(process.env.LANDING_STAGING_ORIGIN+'/release.json');
+          assert.equal(response.status,200);
+          assert.deepEqual(await response.json(),local);
+          for(const [file,hash] of Object.entries(local.files)){
+            const r=await fetch(process.env.LANDING_STAGING_ORIGIN+'/'+file);
+            assert.equal(r.status,200);
+            assert.match(r.headers.get('x-robots-tag'),/noindex/);
+            assert.equal(createHash('sha256').update(Buffer.from(await r.arrayBuffer())).digest('hex'),hash);
+          }
+          JS
