@@ -15,6 +15,6 @@ for(const file of ['index.html','info.html','en/index.html','en/info.html']){
 }
 cpSync('src','dist/src',{recursive:true});
 writeFileSync('dist/robots.txt','User-agent: *\nDisallow: /\n');
-writeFileSync('dist/404.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Page not found | Zenloth</title><meta name="robots" content="noindex,nofollow"></head><body><main><h1>Page not found</h1><p lang="es">Página no encontrada.</p><a href="/">Zenloth</a></main></body></html>');
+writeFileSync('dist/404.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Page not found | Zenloth</title><link rel="icon" type="image/x-icon" href="/src/logo/zenloth-favicon.ico"><meta name="robots" content="noindex,nofollow"></head><body><main><h1>Page not found</h1><p lang="es">Página no encontrada.</p><a href="/">Zenloth</a></main></body></html>');
 const files = Object.fromEntries(['index.html','info.html','en/index.html','en/info.html','robots.txt','404.html'].map(file => [file, createHash('sha256').update(readFileSync('dist/'+file)).digest('hex')]));
 writeFileSync('dist/release.json',JSON.stringify({revision:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),environment,frontendOrigin,landingOrigin,files})+'\n');
